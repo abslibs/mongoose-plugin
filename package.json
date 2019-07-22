@@ -1,20 +1,25 @@
 {
   "name": "@abslibs/mongoose-plugin",
   "version": "1.0.0",
-  "description": "mongoose timestamps and  soft delete.",
+  "description": "mongoose plugin for  timestamps and  soft delete.",
   "main": "index.js",
   "engines": {
     "node": ">= 0.10.0"
   },
   "devDependencies": {
-    "mongoose": "*"
+    "eslint": "^6.0.1",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.18.0",
+    "mocha": "^6.1.4",
+    "mongoose": "*",
+    "prettier": "^1.18.2"
   },
   "dependencies": {
     "defaults": "^1.0.3"
   },
   "scripts": {
     "dev": "node index.js",
-    "test": "mocha",
+    "test": "mocha  ./test",
     "format": "prettier --write  \"src/**/*.js\"",
     "lint": "eslint **/*.js",
     "prepare": "",
