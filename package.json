@@ -30,28 +30,32 @@
     "type": "git",
     "url": "git+https://github.com/arpit-absyadav/mongoose-plugin.git"
   },
+  "author": "Arpit Yadav <arpit.absyadav@gmail.com> (https://github.com/arpit-absyadav)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/arpit-absyadav/mongoose-plugin/issues"
+  },
+  "homepage": "https://github.com/arpit-absyadav/mongoose-plugin#readme",
+  "directories": {
+    "test": "test"
+  },
   "keywords": [
     "mongoose",
     "soft",
     "delete",
-    "delete",
     "remove",
+    "destroy",
     "plugin",
     "mongodb",
     "mongoose",
     "plugin",
     "timestamps",
     "createdAt",
-    "updatedAt"
-  ],
-  "author": {
-    "name": "Arpit Yadav",
-    "email": "arpit.absyadav@gmail.com",
-    "url": "https://github.com/arpit-absyadav"
-  },
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/arpit-absyadav/mongoose-plugin/issues"
-  },
-  "homepage": "https://github.com/arpit-absyadav/mongoose-plugin#readme"
+    "updatedAt",
+    "deletedAt",
+    "soft delete",
+    "mongoose paranoid",
+    "soft deletion of documents in MongoDB",
+    "soft deletion of documents in Mongoose"
+  ]
 }
