@@ -1,5 +1,6 @@
+/* eslint-disable func-names */
 /* eslint-disable no-multi-assign */
-exports.parseIndexFields = (options) => {
+function parseIndexFields(options) {
   const indexFields = {
     deleted: false,
     deletedAt: false,
@@ -32,4 +33,6 @@ exports.parseIndexFields = (options) => {
   }
 
   return indexFields;
-};
+}
+
+module.exports = parseIndexFields;

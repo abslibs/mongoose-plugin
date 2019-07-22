@@ -4,7 +4,7 @@
  * https://github.com/Automattic/mongoose/blob/master/lib/query.js#L1996-L2018
  */
 /* istanbul ignore next */
-exports.parseUpdateArguments = (conditions, doc, options, callback) => {
+function parseUpdateArguments(conditions, doc, options, callback) {
   if (typeof options === 'function') {
     // .update(conditions, doc, callback)
     callback = options;
@@ -37,4 +37,5 @@ exports.parseUpdateArguments = (conditions, doc, options, callback) => {
   if (callback) args.push(callback);
 
   return args;
-};
+}
+module.exports = parseUpdateArguments;

@@ -6,8 +6,13 @@
  * @Author: Arpit Yadav
  * @Date: 2019-07-22 22:48:23
  * @Last Modified by: Arpit Yadav
- * @Last Modified time: 2019-07-22 23:01:59
+ * @Last Modified time: 2019-07-23 00:53:25
  */
+
+const mongoose = require('mongoose');
+
+const { Schema } = mongoose;
+const { Model } = mongoose;
 
 const {
   parseIndexFields,
