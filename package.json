@@ -1,0 +1,41 @@
+{
+  "name": "@abslibs/mongoose-plugin",
+  "version": "1.0.0",
+  "description": "mongoose timestamps and  soft delete.",
+  "main": "index.js",
+  "engines": {
+    "node": ">= 0.10.0"
+  },
+  "devDependencies": {
+    "mongoose": "*"
+  },
+  "dependencies": {
+    "defaults": "^1.0.3"
+  },
+  "scripts": {
+    "dev": "node index.js",
+    "test": "mocha",
+    "format": "prettier --write  \"src/**/*.js\"",
+    "lint": "eslint **/*.js",
+    "prepare": "",
+    "prepublishOnly": "npm test",
+    "preversion": "npm run lint",
+    "version": "git add -A",
+    "postversion": "git push && git push --tags"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arpit-absyadav/mongoose-plugin.git"
+  },
+  "keywords": [],
+  "author": {
+    "name": "Arpit Yadav",
+    "email": "arpit.absyadav@gmail.com",
+    "url": ""
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/arpit-absyadav/mongoose-plugin/issues"
+  },
+  "homepage": "https://github.com/arpit-absyadav/mongoose-plugin#readme"
+}
