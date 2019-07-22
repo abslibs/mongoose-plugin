@@ -74,21 +74,12 @@ var TestSchema = new Schema({
 });
 
 TestSchema.plugin(mongoose_plugin, { deletedAt: true });
-
 var Test = mongoose.model('Test', TestSchema);
-
 var test = new Test({ name: 'Test' });
-
 test.save(function() {
-  // mongodb: { deleted: false, name: 'Test' }
-
-  // note: you should invoke exactly destroy() method instead of standard test.remove()
   test.destroy(function() {
-    // mongodb: { deleted: true, name: 'Test', deletedAt: ISODate("2014-08-01T10:34:53.171Z")}
-
-    test.restore(function() {
-      // mongodb: { deleted: false, name: 'Test' }
-    });
+    // mongodb: { deleted: true,  deletedAt: ISODate("2014-08-01T10:34:53.171Z")}
+    test.restore(function() {});
   });
 });
 ```
@@ -103,21 +94,15 @@ var TestSchema = new Schema({
 });
 
 TestSchema.plugin(mongoose_plugin, { deletedBy: true });
-
 var Test = mongoose.model('Test', TestSchema);
-
 var test = new Test({ name: 'Test' });
-
 test.save(function() {
   // mongodb: { deleted: false, name: 'Test' }
 
   var idUser = mongoose.Types.ObjectId('53da93b16b4a6670076b16bf');
   test.destroy(idUser, function() {
     // mongodb: { deleted: true, name: 'Test', deletedBy: ObjectId("53da93b16b4a6670076b16bf")}
-
-    test.restore(function() {
-      // mongodb: { deleted: false, name: 'Test' }
-    });
+    test.restore(function() {});
   });
 });
 ```
@@ -133,7 +118,6 @@ var TestSchema = new Schema({
 });
 
 TestSchema.plugin(mongoose_plugin);
-
 var Test = mongoose.model('Test', TestSchema);
 
 var idUser = mongoose.Types.ObjectId("53da93b16b4a6670076b16bf");
