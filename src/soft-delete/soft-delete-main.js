@@ -6,7 +6,7 @@
  * @Author: Arpit Yadav
  * @Date: 2019-07-22 22:48:23
  * @Last Modified by: Arpit Yadav
- * @Last Modified time: 2019-07-23 22:53:43
+ * @Last Modified time: 2019-07-24 00:38:39
  */
 
 const mongoose = require('mongoose');
@@ -101,17 +101,24 @@ function softDelete(schema, options) {
         }
 
         schema.statics[method] = function () {
-          return Model[modelMethodName]
-            .apply(this, arguments)
-            .where('deleted')
-            .ne(true);
+          const fn = Model[modelMethodName].apply(this, arguments);
+          if (fn.options.paranoid !== false) {
+            const modelFn = Model[modelMethodName]
+              .apply(this, arguments)
+              .where('deleted')
+              .ne(true);
+            return modelFn;
+          }
+          return fn;
         };
       } else {
         schema.statics[method] = function () {
           // const args = parseUpdateArguments.apply(undefined, arguments);
           const args = parseUpdateArguments(...arguments);
 
-          args[0].deleted = { $ne: true };
+          if (Object.keys(args[1]) !== 'paranoid') {
+            args[0].deleted = { $ne: true };
+          }
 
           return Model[method].apply(this, args);
         };
