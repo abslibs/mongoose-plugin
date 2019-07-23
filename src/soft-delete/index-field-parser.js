@@ -1,3 +1,9 @@
+/*
+ * @Author: Arpit Yadav
+ * @Date: 2019-07-23 21:04:08
+ * @Last Modified by: Arpit Yadav
+ * @Last Modified time: 2019-07-23 21:11:10
+ */
 /* eslint-disable func-names */
 /* eslint-disable no-multi-assign */
 function parseIndexFields(options) {

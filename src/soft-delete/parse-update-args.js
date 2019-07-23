@@ -1,3 +1,9 @@
+/*
+ * @Author: Arpit Yadav
+ * @Date: 2019-07-23 21:04:14
+ * @Last Modified by: Arpit Yadav
+ * @Last Modified time: 2019-07-23 21:11:15
+ */
 /* eslint-disable no-param-reassign */
 /**
  * This code is taken from official mongoose repository
