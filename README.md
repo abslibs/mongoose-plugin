@@ -160,6 +160,7 @@ TestSchema.plugin(mongoose_plugin, { indexFields: ['deletedAt'] });
 ### Method overridden
 
 We have the option to override all standard methods or only specific methods. Overridden methods will exclude deleted documents from results, documents that have `deleted = true`. Every overridden method will have two additional methods, so we will be able to work with deleted documents.
+
 **NOTE :** Method will be overridden if **paranoid is true**
 
 | only not deleted documents |
