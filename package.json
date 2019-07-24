@@ -1,6 +1,6 @@
 {
   "name": "@abslibs/mongoose-plugin",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "mongoose plugin for  timestamps and  soft delete.",
   "main": "index.js",
   "engines": {
