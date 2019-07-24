@@ -8,7 +8,7 @@ This code has some features from [dsanel's](https://github.com/dsanel) plugin [m
 
 - Soft Delete document using **destroy** method.
 
-| Feature                                     | Description                                                       |
+| Methods and Fields                          | Description                                                       |
 | ------------------------------------------- | ----------------------------------------------------------------- |
 | [ **destroy()** ](#simple-usage)            | method on document (do not override standard **remove()** method) |
 | [ **destroyById()** ](#simple-usage)        | static method                                                     |
@@ -22,7 +22,6 @@ This code has some features from [dsanel's](https://github.com/dsanel) plugin [m
 | -------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
 | [Bulk destroy and restore](#bulk-destroy-and-restore)                                  | Bulk Destroy                                                       |
 | [Option to override static methods](#examples-how-to-override-one-or-multiple-methods) | **count, countDocuments, find, findOne, findOneAndUpdate, update** |
-| [For overridden methods we have two additional methods](#method-overridden)            | **methodDeleted** and **methodWithDeleted**                        |
 | [Disable model validation on destroy](#disable-model-validation-on-destroy)            | Disable Validation                                                 |
 | [Option to create index on destroy fields](#create-index-on-fields)                    | **deleted**, **deletedAt**, **deletedBy**                          |
 
@@ -38,18 +37,41 @@ npm install @abslibs/mongoose-plugin
 
 We can use this plugin with or without options.
 
-### Simple usage
+### Setup
 
 ```javascript
-var mongoose_plugin = require('@abslibs/mongoose-plugin');
+const mongoose_plugin = require('@abslibs/mongoose-plugin');
 
-var TestSchema = new Schema({
+const TestSchema = new Schema({
   name: String
 });
 
-TestSchema.plugin(mongoose_plugin);
-var Test = mongoose.model('Test', TestSchema);
-var test = new Test({ name: 'Test' });
+// Apply on specific model.
+// Can apply globally : eg: mongoose.plugin(mongoose_plugin, {})
+TestSchema.plugin(mongoose_plugin, {
+  paranoid: true,
+  timestamps: true,
+  createdAt: 'created_at',
+  updatedAt: 'updated_at'
+});
+
+const Test = mongoose.model('Test', TestSchema);
+```
+
+### Options
+
+**paranoid** : it needs to be true for soft deletion.
+
+**timestamps** : it will add [createdAt & updatedAt] in schema.
+
+**createdAt** : can replace createdAt by given string. eg: _createdAt: 'created_at'_
+
+**updatedAt** : can replace updatedAt by given string. eg: _updatedAt: 'created_at'_
+
+### Simple usage
+
+```javascript
+const test = new Test({ name: 'Test' });
 test.save(function() {
   test.destroy(function() {
     // deleted: true
@@ -64,24 +86,12 @@ var exampleTestId = mongoose.Types.ObjectId('53da93b16b4a6670076b16bf');
 Test.destroyById(exampleTestId, function(err, TestDocument) {});
 ```
 
-### Save time of deletion
+### Get sot soft deleted data.
 
 ```javascript
-var mongoose_plugin = require('@abslibs/mongoose-plugin');
-
-var TestSchema = new Schema({
-  name: String
-});
-
-TestSchema.plugin(mongoose_plugin, { deletedAt: true });
-var Test = mongoose.model('Test', TestSchema);
-var test = new Test({ name: 'Test' });
-test.save(function() {
-  test.destroy(function() {
-    // mongodb: { deleted: true,  deletedAt: ISODate("2014-08-01T10:34:53.171Z")}
-    test.restore(function() {});
-  });
-});
+// pass *{ paranoid: false }* as option.
+// This will return response including deleted documents.
+test.find({ name: 'Arpit' }, null, { paranoid: false }, (err, user) => {});
 ```
 
 ### Who has deleted the data?
@@ -110,15 +120,6 @@ test.save(function() {
 ### Bulk destroy and restore
 
 ```javascript
-var mongoose_plugin  = require('@abslibs/mongoose-plugin');
-
-var TestSchema = new Schema({
-    name: String,
-    age: Number
-});
-
-TestSchema.plugin(mongoose_plugin);
-var Test = mongoose.model('Test', TestSchema);
 
 var idUser = mongoose.Types.ObjectId("53da93b16b4a6670076b16bf");
 
@@ -143,95 +144,9 @@ Test.restore().exec(function (err, result) { ... });
 Test.restore({age:10}).exec(function (err, result) { ... });
 ```
 
-### Method overridden
-
-We have the option to override all standard methods or only specific methods. Overridden methods will exclude deleted documents from results, documents that have `deleted = true`. Every overridden method will have two additional methods, so we will be able to work with deleted documents.
-
-| only not deleted documents | only deleted documents  | all documents               |
-| -------------------------- | ----------------------- | --------------------------- |
-| count()                    | countDeleted            | countWithDeleted            |
-| find()                     | findDeleted             | findWithDeleted             |
-| findOne()                  | findOneDeleted          | findOneWithDeleted          |
-| findOneAndUpdate()         | findOneAndUpdateDeleted | findOneAndUpdateWithDeleted |
-| update()                   | updateDeleted           | updateWithDeleted           |
-
-### Examples how to override one or multiple methods
-
-```javascript
-var mongoose_plugin = require('@abslibs/mongoose-plugin');
-
-var TestSchema = new Schema({
-  name: String
-});
-
-// Override all methods
-TestSchema.plugin(mongoose_plugin, { overrideMethods: 'all' });
-// or
-TestSchema.plugin(mongoose_plugin, { overrideMethods: true });
-
-// Overide only specific methods
-TestSchema.plugin(mongoose_plugin, {
-  overrideMethods: ['count', 'find', 'findOne', 'findOneAndUpdate', 'update']
-});
-// or
-TestSchema.plugin(mongoose_plugin, {
-  overrideMethods: ['count', 'countDocuments', 'find']
-});
-// or (unrecognized method names will be ignored)
-TestSchema.plugin(mongoose_plugin, {
-  overrideMethods: ['count', 'find', 'errorXyz']
-});
-
-var Test = mongoose.model('Test', TestSchema);
-
-// Example of usage overridden methods
-
-Test.find(function(err, documents) {
-  // will return only NOT DELETED documents
-});
-
-Test.findDeleted(function(err, documents) {
-  // will return only DELETED documents
-});
-
-Test.findWithDeleted(function(err, documents) {
-  // will return ALL documents
-});
-```
-
-### Disable model validation on destroy
-
-```javascript
-var mongoose_plugin = require('@abslibs/mongoose-plugin');
-
-var TestSchema = new Schema({
-  name: { type: String, required: true }
-});
-
-// By default, validateBeforeDelete is set to true
-TestSchema.plugin(mongoose_plugin);
-// the previous line is identical to next line
-TestSchema.plugin(mongoose_plugin, { validateBeforeDelete: true });
-
-// To disable model validation on destroy, set validateBeforeDelete option to false
-TestSchema.plugin(mongoose_plugin, { validateBeforeDelete: false });
-
-// NOTE: This is based on existing Mongoose validateBeforeSave option
-// http://mongoosejs.com/docs/guide.html#validateBeforeSave
-```
-
 ### Create index on fields
 
 ```javascript
-var mongoose_plugin = require('@abslibs/mongoose-plugin');
-
-var TestSchema = new Schema({
-  name: String
-});
-
-// Index all field related to plugin (deleted, deletedAt, deletedBy)
-TestSchema.plugin(mongoose_plugin, { indexFields: 'all' });
-// or
 TestSchema.plugin(mongoose_plugin, { indexFields: true });
 
 // Index only specific fields
@@ -241,3 +156,16 @@ TestSchema.plugin(mongoose_plugin, {
 // or
 TestSchema.plugin(mongoose_plugin, { indexFields: ['deletedAt'] });
 ```
+
+### Method overridden
+
+We have the option to override all standard methods or only specific methods. Overridden methods will exclude deleted documents from results, documents that have `deleted = true`. Every overridden method will have two additional methods, so we will be able to work with deleted documents.
+**NOTE :** Method will be overridden if **paranoid is true**
+
+| only not deleted documents |
+| -------------------------- |
+| count()                    |
+| find()                     |
+| findOne()                  |
+| findOneAndUpdate()         |
+| update()                   |
