@@ -15,6 +15,9 @@
     "mongoose": "*",
     "prettier": "^1.18.2"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {},
   "scripts": {
     "dev": "node index.js",

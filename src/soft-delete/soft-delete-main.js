@@ -6,7 +6,7 @@
  * @Author: Arpit Yadav
  * @Date: 2019-07-22 22:48:23
  * @Last Modified by: Arpit Yadav
- * @Last Modified time: 2019-07-24 00:38:39
+ * @Last Modified time: 2019-07-28 17:38:47
  */
 
 const mongoose = require('mongoose');
@@ -115,7 +115,6 @@ function softDelete(schema, options) {
         schema.statics[method] = function () {
           // const args = parseUpdateArguments.apply(undefined, arguments);
           const args = parseUpdateArguments(...arguments);
-
           if (Object.keys(args[1]) !== 'paranoid') {
             args[0].deleted = { $ne: true };
           }
