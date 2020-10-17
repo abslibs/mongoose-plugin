@@ -1,9 +1,6 @@
 # Mongoose Plugin
 
-@abslibs/mongoose-plugin is simple and lightweight plugin that enables some basic required functionality for mongoose.
-
-This code has some features from [dsanel's](https://github.com/dsanel) plugin [mongoose-delete](https://github.com/dsanel/mongoose-delete).
-
+@abslibs/mongoose-plugin is simple and lightweight plugin that enables some basic required functionality for mongoose. 
 ## Features
 
 - Soft Delete document using **destroy** method.
