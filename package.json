@@ -12,13 +12,14 @@
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.18.0",
     "mocha": "^6.1.4",
-    "mongoose": "*",
     "prettier": "^1.18.2"
   },
   "publishConfig": {
     "access": "public"
   },
-  "dependencies": {},
+  "dependencies": {
+    "mongoose": "*"
+  },
   "scripts": {
     "dev": "node index.js",
     "test": "mocha  ./test",
