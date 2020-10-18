@@ -18,7 +18,7 @@
     "access": "public"
   },
   "dependencies": {
-    "mongoose": "*"
+    "mongoose": "^5.10.9"
   },
   "scripts": {
     "dev": "node index.js",
