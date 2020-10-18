@@ -45,6 +45,8 @@
     "test": "test"
   },
   "keywords": [
+    "mongoose soft delete",
+    "mongoose delete",
     "mongoose",
     "soft",
     "delete",
