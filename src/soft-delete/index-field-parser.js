@@ -2,7 +2,7 @@
  * @Author: Arpit Yadav
  * @Date: 2019-07-23 21:04:08
  * @Last Modified by: Arpit Yadav
- * @Last Modified time: 2019-07-23 21:11:10
+ * @Last Modified time: 2020-10-18 20:16:10
  */
 /* eslint-disable func-names */
 /* eslint-disable no-multi-assign */
@@ -17,18 +17,11 @@ function parseIndexFields(options) {
     return indexFields;
   }
 
-  if (
-    (typeof options.indexFields === 'string'
-      || options.indexFields instanceof String)
-    && options.indexFields === 'all'
-  ) {
+  if ((typeof options.indexFields === 'string' || options.indexFields instanceof String) && options.indexFields === 'all') {
     indexFields.deleted = indexFields.deletedAt = indexFields.deletedBy = true;
   }
 
-  if (
-    typeof options.indexFields === 'boolean'
-    && options.indexFields === true
-  ) {
+  if (typeof options.indexFields === 'boolean' && options.indexFields === true) {
     indexFields.deleted = indexFields.deletedAt = indexFields.deletedBy = true;
   }
 
